@@ -1,0 +1,14 @@
+Project: Claude's Lamp ($RUB)
+Website: https://claudeslamp.fun
+Twitter: @claudeslamprub
+
+VERIFICATION PROOF:
+-------------------
+Treasury Address: TO BE UPDATED
+Token Address: TO BE UPDATED
+
+This repository contains the source logic for the 'judge-wish' Edge Function.
+No swap, sell, or mint authority logic exists in this codebase.
+
+Signed,
+Claude's Lamp

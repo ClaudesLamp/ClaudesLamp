@@ -1,0 +1,449 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Core Palette - Extracted from Voxel Lamp */
+    --cream: 43 33% 93%;
+    --papyrus: 40 30% 90%;
+    --terracotta: 16 45% 45%;
+    --terracotta-dark: 14 50% 35%;
+    --gold: 43 80% 55%;
+    --gold-light: 45 85% 65%;
+    --gold-glow: 45 100% 70%;
+    
+    /* Semantic Tokens */
+    --background: 43 33% 93%;
+    --foreground: 16 45% 25%;
+
+    --card: 40 30% 90%;
+    --card-foreground: 16 45% 25%;
+
+    --popover: 40 35% 95%;
+    --popover-foreground: 16 45% 25%;
+
+    --primary: 16 45% 45%;
+    --primary-foreground: 43 33% 93%;
+
+    --secondary: 43 80% 55%;
+    --secondary-foreground: 16 45% 25%;
+
+    --muted: 40 20% 85%;
+    --muted-foreground: 16 30% 40%;
+
+    --accent: 43 80% 55%;
+    --accent-foreground: 16 45% 25%;
+
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 43 33% 93%;
+
+    --border: 16 45% 45%;
+    --input: 40 30% 85%;
+    --ring: 43 80% 55%;
+
+    --radius: 0.25rem;
+
+    /* Custom Properties */
+    --border-thick: 8px;
+    --border-thin: 3px;
+    --glow-gold: 0 0 30px hsl(45 100% 70% / 0.6);
+    --glow-intense: 0 0 60px hsl(45 100% 70% / 0.8), 0 0 100px hsl(43 80% 55% / 0.4);
+  }
+
+  .dark {
+    --background: 16 45% 8%;
+    --foreground: 43 33% 93%;
+    --card: 16 40% 12%;
+    --card-foreground: 43 33% 93%;
+    --popover: 16 40% 10%;
+    --popover-foreground: 43 33% 93%;
+    --primary: 43 80% 55%;
+    --primary-foreground: 16 45% 15%;
+    --secondary: 16 45% 35%;
+    --secondary-foreground: 43 33% 93%;
+    --muted: 16 30% 20%;
+    --muted-foreground: 40 20% 60%;
+    --accent: 43 80% 55%;
+    --accent-foreground: 16 45% 15%;
+    --border: 43 80% 55%;
+    --input: 16 30% 20%;
+    --ring: 43 80% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Merriweather', serif;
+  }
+
+  /* Pixel Font for Headers */
+  .font-pixel {
+    font-family: 'Press Start 2P', cursive;
+  }
+
+  /* Serif for Lore */
+  .font-serif-lore {
+    font-family: 'Merriweather', serif;
+  }
+}
+
+@layer components {
+  /* Full-Screen Viewport Frame */
+  .viewport-frame {
+    @apply fixed inset-0;
+    border: 4px solid hsl(var(--terracotta));
+    box-shadow: 
+      inset 0 0 0 1px hsl(var(--gold)),
+      inset 0 0 40px hsl(var(--terracotta) / 0.15);
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  @media (min-width: 768px) {
+    .viewport-frame {
+      border-width: 8px;
+      box-shadow: 
+        inset 0 0 0 2px hsl(var(--gold)),
+        inset 0 0 40px hsl(var(--terracotta) / 0.15);
+    }
+  }
+
+  /* Corner Decorations */
+  .corner-decoration {
+    @apply absolute w-6 h-6 pointer-events-none;
+  }
+
+  .corner-decoration::before,
+  .corner-decoration::after {
+    content: '';
+    @apply absolute bg-gold;
+  }
+
+  .corner-tl {
+    @apply top-4 left-4;
+  }
+  .corner-tl::before {
+    @apply w-6 h-0.5 top-0 left-0;
+  }
+  .corner-tl::after {
+    @apply w-0.5 h-6 top-0 left-0;
+  }
+
+  .corner-tr {
+    @apply top-4 right-4;
+  }
+  .corner-tr::before {
+    @apply w-6 h-0.5 top-0 right-0;
+  }
+  .corner-tr::after {
+    @apply w-0.5 h-6 top-0 right-0;
+  }
+
+  .corner-bl {
+    @apply bottom-4 left-4;
+  }
+  .corner-bl::before {
+    @apply w-6 h-0.5 bottom-0 left-0;
+  }
+  .corner-bl::after {
+    @apply w-0.5 h-6 bottom-0 left-0;
+  }
+
+  .corner-br {
+    @apply bottom-4 right-4;
+  }
+  .corner-br::before {
+    @apply w-6 h-0.5 bottom-0 right-0;
+  }
+  .corner-br::after {
+    @apply w-0.5 h-6 bottom-0 right-0;
+  }
+
+  /* Dot Grid Background Pattern */
+  .bg-dotgrid {
+    background-image: 
+      radial-gradient(circle, hsl(var(--terracotta) / 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Scanline Overlay */
+  .scanlines {
+    @apply fixed inset-0 pointer-events-none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--terracotta) / 0.03) 2px,
+      hsl(var(--terracotta) / 0.03) 4px
+    );
+    z-index: 40;
+  }
+
+  /* Speech Bubble - Simple Box */
+  .speech-bubble {
+    @apply relative p-4;
+    background: hsl(var(--papyrus));
+    border: 3px solid hsl(var(--terracotta));
+    border-radius: 8px;
+  }
+
+  .speech-bubble-gold {
+    background: hsl(43 50% 40% / 0.85);
+    border-color: hsl(var(--gold));
+    color: hsl(var(--cream));
+  }
+
+  .speech-bubble-gold p,
+  .speech-bubble-gold span,
+  .speech-bubble-gold label {
+    color: hsl(var(--cream));
+  }
+
+  .speech-bubble-gold::after {
+    border-bottom-color: hsl(var(--gold));
+  }
+
+  .speech-bubble-gold::before {
+    border-bottom-color: hsl(var(--gold-light) / 0.3);
+  }
+
+  .speech-bubble-grey {
+    background: hsl(var(--muted));
+    border-color: hsl(var(--muted-foreground));
+  }
+
+  .speech-bubble-grey::after {
+    border-bottom-color: hsl(var(--muted-foreground));
+  }
+
+  .speech-bubble-grey::before {
+    border-bottom-color: hsl(var(--muted));
+  }
+
+  /* Receipt Tape Footer */
+  .receipt-tape {
+    @apply py-4 px-6;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      hsl(var(--papyrus)) 5%,
+      hsl(var(--papyrus)) 95%,
+      transparent 100%
+    );
+    border-top: 2px dashed hsl(var(--terracotta) / 0.5);
+    border-bottom: 2px dashed hsl(var(--terracotta) / 0.5);
+  }
+
+  /* Pulsing Text */
+  .pulse-text {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+      text-shadow: 0 0 10px hsl(var(--gold) / 0.5);
+    }
+    50% {
+      opacity: 0.7;
+      text-shadow: 0 0 20px hsl(var(--gold) / 0.8);
+    }
+  }
+
+  /* Click to Start Pulse */
+  .click-prompt {
+    animation: click-pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes click-pulse {
+    0%, 100% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  /* Lamp Glow Effect */
+  .lamp-glow {
+    filter: drop-shadow(var(--glow-gold));
+    transition: filter 0.3s ease;
+  }
+
+  .lamp-glow-intense {
+    filter: drop-shadow(var(--glow-intense));
+  }
+
+  /* Remove click/focus selection ring on the lamp button - AGGRESSIVE */
+  .oracle-lamp-button {
+    all: unset;
+    display: block;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    outline: none !important;
+    outline-offset: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
+  .oracle-lamp-button *,
+  .oracle-lamp-button::before,
+  .oracle-lamp-button::after {
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .oracle-lamp-button:focus,
+  .oracle-lamp-button:focus-visible,
+  .oracle-lamp-button:focus-within,
+  .oracle-lamp-button:active {
+    outline: none !important;
+    outline-offset: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Gold Particle */
+  .gold-particle {
+    @apply absolute w-2 h-2;
+    background: hsl(var(--gold));
+    box-shadow: 0 0 6px hsl(var(--gold-glow));
+  }
+
+  /* Input Styling */
+  .oracle-input {
+    @apply w-full px-4 py-3 font-pixel text-xs;
+    background: hsl(var(--cream));
+    border: 2px solid hsl(var(--terracotta));
+    color: hsl(var(--foreground));
+  }
+
+  .oracle-input:focus {
+    outline: none;
+    border-color: hsl(var(--gold));
+    box-shadow: 0 0 0 2px hsl(var(--gold) / 0.3);
+  }
+
+  .oracle-input::placeholder {
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Submit Button */
+  .oracle-submit {
+    @apply px-4 py-2 font-pixel text-xs transition-all;
+    background: hsl(var(--terracotta));
+    color: hsl(var(--cream));
+    border: 2px solid hsl(var(--terracotta-dark));
+  }
+
+  .oracle-submit:hover {
+    background: hsl(var(--terracotta-dark));
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px hsl(var(--terracotta) / 0.4);
+  }
+
+  .oracle-submit:active {
+    transform: translateY(0);
+  }
+
+  .oracle-submit-gold {
+    background: hsl(var(--gold));
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--gold-light));
+  }
+
+  .oracle-submit-gold:hover {
+    background: hsl(var(--gold-light));
+  }
+
+  /* Vapor/Smoke Effect - Thin at bottom, thick at top */
+  .vapor {
+    @apply absolute pointer-events-none;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 200px;
+    z-index: 20;
+  }
+
+  .vapor span {
+    @apply absolute;
+    bottom: 0;
+    left: 50%;
+    width: 3px;
+    height: 100px;
+    background: linear-gradient(
+      to top,
+      hsl(var(--gold) / 0.9),
+      hsl(var(--gold-light) / 0.6),
+      hsl(var(--gold-glow) / 0.3),
+      transparent
+    );
+    border-radius: 50%;
+    filter: blur(4px);
+    opacity: 0;
+    transform-origin: bottom center;
+    animation: animateSmoke 8s ease-out infinite;
+    animation-delay: calc(var(--i) * 0.4s);
+  }
+
+  .vapor span:nth-child(odd) {
+    animation-delay: calc(var(--i) * 0.4s + 0.2s);
+    width: 4px;
+    height: 90px;
+    filter: blur(3px);
+  }
+
+  .vapor span:nth-child(3n) {
+    width: 2px;
+    height: 110px;
+    filter: blur(5px);
+  }
+
+  @keyframes animateSmoke {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(0) scaleX(1) scaleY(0.3);
+      filter: blur(2px);
+    }
+    8% {
+      opacity: 0.95;
+      transform: translateX(-50%) translateY(-10px) scaleX(1.5) scaleY(0.5);
+      filter: blur(3px);
+    }
+    25% {
+      opacity: 0.8;
+      transform: translateX(calc(-50% + 4px)) translateY(-40px) scaleX(3) scaleY(0.7);
+      filter: blur(5px);
+    }
+    50% {
+      transform: translateX(calc(-50% + 8px)) translateY(-80px) scaleX(5) scaleY(1) rotate(3deg);
+      opacity: 0.5;
+      filter: blur(8px);
+    }
+    75% {
+      opacity: 0.25;
+      transform: translateX(calc(-50% - 5px)) translateY(-120px) scaleX(8) scaleY(1.2) rotate(-2deg);
+      filter: blur(12px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-160px) scaleX(12) scaleY(1.5) rotate(0deg);
+      filter: blur(16px);
+    }
+  }
+}
